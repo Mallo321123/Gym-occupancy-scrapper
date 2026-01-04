@@ -49,6 +49,8 @@ if __name__ == "__main__":
 
         print(f"percent: {percent}, last update: {last_update}")
         
-        client.publish("fitness/occupancy", percent)
+        data = {"percent": percent, "last_update": last_update}
+        
+        client.publish("fitness", str(data))
         
         time.sleep(120)  # Wait for 2 minutes before the next fetch
