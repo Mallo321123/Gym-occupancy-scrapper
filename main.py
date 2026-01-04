@@ -40,18 +40,24 @@ if __name__ == "__main__":
             percent = int(relevant_container.split('class="meterbubble">')[1].split("</span>")[0].strip("%"))
             
         except (IndexError, ValueError) as e:
-            raise Exception("Failed to parse the occupancy percentage.") from e
+            pass
+            #raise Exception("Failed to parse the occupancy percentage.") from e
         
         try:
             last_update = relevant_container.split('Zuletzt aktualisiert: ')[1].split("</div>")[0].strip(" Uhr")
             
         except (IndexError, ValueError) as e:
-            raise Exception("Failed to parse the last update time.") from e
+            pass
+            #raise Exception("Failed to parse the last update time.") from e
 
         print(f"percent: {percent}, last update: {last_update}")
-        
-        data = {"percent": percent}
-        
-        client.publish("fitness", json.dumps(data))
+        try:
+            data = {"percent": percent}
+            
+            client.publish("fitness", json.dumps(data))
+            
+        except Exception as e:
+            print(f"An error occurred while publishing to MQTT: {e}")
+            
         
         time.sleep(120)  # Wait for 2 minutes before the next fetch
