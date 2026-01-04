@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
         print(f"percent: {percent}, last update: {last_update}")
         
-        data = {"percent": percent, "last_update": last_update}
+        data = {"percent": percent}
         
         client.publish("fitness", str(data))
         
