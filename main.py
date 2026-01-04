@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 import threading
 import paho.mqtt.client as mqtt
+import json
 
 def fetch_data(url):
     try:
@@ -51,6 +52,6 @@ if __name__ == "__main__":
         
         data = {"percent": percent}
         
-        client.publish("fitness", str(data))
+        client.publish("fitness", json.dumps(data))
         
         time.sleep(120)  # Wait for 2 minutes before the next fetch
