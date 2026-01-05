@@ -28,27 +28,27 @@ if __name__ == "__main__":
         data = fetch_data(url)
 
         if not data:
-            raise Exception("Failed to fetch data from the URL.")
+            print("No data fetched, retrying...")
 
-        relevant_container = data.split(
-            '<div class="magicline-auslastung auslastung show-on-mobile">'
-        )[1].split("</div>")[0]
-        
-        print(relevant_container)
+        try:
+            relevant_container = data.split(
+                '<div class="magicline-auslastung auslastung show-on-mobile">'
+            )[1].split("</div>")[0]
+        except (IndexError, ValueError) as e:
+            print(f"An error occurred while parsing HTML: {e}")
         
         try:
             percent = int(relevant_container.split('class="meterbubble">')[1].split("</span>")[0].strip("%"))
             
-        except (IndexError, ValueError) as e:
-            pass
-            #raise Exception("Failed to parse the occupancy percentage.") from e
+        except (IndexError, ValueError, NameError) as e:
+            print(f"An error occurred while parsing occupancy percentage: {e}")
+            percent = 0
         
         try:
             last_update = relevant_container.split('Zuletzt aktualisiert: ')[1].split("</div>")[0].strip(" Uhr")
             
-        except (IndexError, ValueError) as e:
-            pass
-            #raise Exception("Failed to parse the last update time.") from e
+        except (IndexError, ValueError, NameError) as e:
+            last_update = "unknown"
 
         print(f"percent: {percent}, last update: {last_update}")
         try:
