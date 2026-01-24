@@ -34,7 +34,7 @@ if __name__ == "__main__":
             relevant_container = data.split(
                 '<div class="magicline-auslastung auslastung show-on-mobile">'
             )[1].split("</div>")[0]
-        except (IndexError, ValueError) as e:
+        except (IndexError, ValueError, AttributeError) as e:
             print(f"An error occurred while parsing HTML: {e}")
         
         try:
